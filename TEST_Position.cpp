@@ -12,12 +12,15 @@
 static const uint8_t MOTOR_ID_0 = 0x02;  // Moteur 0 0x7F
 static const uint8_t MASTER_ID = 0xFD;
 
-
-const float SPEED_MOTION = 1.0f;  // Vitesse cible pour le mode motion (augmentée pour test)
-const float KP_VALUE = 2.0f;   // Gain proportionnel
-const float KD_VALUE = 1.0f;    // Gain dérivé
-const float TRQ_MOTION = 1.0f;  // Couple cible pour le mode motion (augmenté pour test)
-//const float KI_SPEED = 0.008f;  // Gain intégral pour la boucle de vitesse interne
+// Paramètres ajustables
+//const float MAX_SPEED = 6.0f;  // Vitesse max en rad/s
+//const float KP_VALUE = 10.0f;  // Vitesse max
+//const float TRQ = 4.0f;  // Vitesse max en rad/s
+//const float CURR = 10.0f;  // Vitesse max en rad/s
+//const float DELAY = 200;  // Vitesse max en rad/s
+//const float KI_SPEED = 0.008;  // Gain intégral pour la boucle de vitesse interne
+//const float KI_VALUE = 0.1f;   // Gain intégral (petit pour stabilité)
+//const float KD_VALUE = 0.5f;   // Gain dérivé (amortit oscillations)
 
 
 // Instances des drivers CyberGear
@@ -82,10 +85,11 @@ void setup() {
     // 2. Initialisation des moteurs
     Serial.println("Initialisation des moteurs...");
     
-    motor0.init_motor(MODE_MOTION);
-    //motor0.set_limit_speed(7.0f);
-    //motor0.set_limit_current(10.0f);
-    //motor0.set_limit_torque(5.0f);
+    motor0.init_motor(MODE_POSITION);
+    motor0.set_position_kp(10.0f);
+    motor0.set_limit_speed(7.0f);
+    motor0.set_limit_current(10.0f);
+    motor0.set_limit_torque(5.0f);
     //motor0.set_speed_ki(0.008f);
     motor0.enable_motor();
 
@@ -94,15 +98,15 @@ void setup() {
     set_mechanical_position_to_zero(MOTOR_ID_0, MASTER_ID);
     delay(1000);
 
+    // Étape 10 : Envoyer une consigne de position (par exemple, 1.0 rad)
+    Serial.println("Envoi d’une consigne de position (1.0 rad)...");
+    motor0.set_position_ref(0.1);
+    delay(2000);
 
-      // 3. Définir la position actuelle comme zéro
-      Serial.println("Définition de la position zéro...");
-      set_mechanical_position_to_zero(MOTOR_ID_0, MASTER_ID);
-      delay(1000);
-
-  // 5. Mouvement initial pour tester
- Serial.println("Mouvement initial vers 0 radians...");
- motor0.set_motion_control(0.0f, SPEED_MOTION, TRQ_MOTION, KP_VALUE, KD_VALUE);
+    // Étape 11 : Ramener le moteur à la nouvelle position zéro (0.0 rad)
+    Serial.println("Retour à la nouvelle position zéro (0.0 rad)...");
+    motor0.set_position_ref(0.0f);
+    delay(2000);
 }
 
 void loop() {
