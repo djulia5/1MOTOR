@@ -12,17 +12,6 @@
 static const uint8_t MOTOR_ID_0 = 0x02;  // Moteur 0 0x7F
 static const uint8_t MASTER_ID = 0xFD;
 
-// Paramètres ajustables
-//const float MAX_SPEED = 6.0f;  // Vitesse max en rad/s
-//const float KP_VALUE = 10.0f;  // Vitesse max
-//const float TRQ = 4.0f;  // Vitesse max en rad/s
-//const float CURR = 10.0f;  // Vitesse max en rad/s
-//const float DELAY = 200;  // Vitesse max en rad/s
-//const float KI_SPEED = 0.008;  // Gain intégral pour la boucle de vitesse interne
-//const float KI_VALUE = 0.1f;   // Gain intégral (petit pour stabilité)
-//const float KD_VALUE = 0.5f;   // Gain dérivé (amortit oscillations)
-
-
 // Instances des drivers CyberGear
 XiaomiCyberGearDriver motor0(MOTOR_ID_0, MASTER_ID);
 
@@ -99,8 +88,8 @@ void setup() {
     delay(1000);
 
     // Étape 10 : Envoyer une consigne de position (par exemple, 1.0 rad)
-    Serial.println("Envoi d’une consigne de position (1.0 rad)...");
-    motor0.set_position_ref(0.1);
+    Serial.println("Envoi d’une consigne de position (0.5 rad)...");
+    motor0.set_position_ref(0.5);
     delay(2000);
 
     // Étape 11 : Ramener le moteur à la nouvelle position zéro (0.0 rad)
@@ -128,10 +117,7 @@ void loop() {
             delay(2000);
             motor0.set_position_ref(0.0);
             delay(2000);
-
-
         }
-
 
     }
     dernierEtatBouton = etatBouton;
