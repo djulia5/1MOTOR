@@ -79,7 +79,6 @@ void setup() {
     motor0.set_limit_speed(7.0f);
     motor0.set_limit_current(10.0f);
     motor0.set_limit_torque(5.0f);
-    //motor0.set_speed_ki(0.008f);
     motor0.enable_motor();
 
     // 3. Définir la position actuelle comme zéro
