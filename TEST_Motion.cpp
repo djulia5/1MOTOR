@@ -77,28 +77,19 @@ void setup() {
         Serial.println("Erreur d’initialisation du bus CAN !");
         while (1) delay(1000);
     }
-    delay(1000);
+ 
 
     // 2. Initialisation des moteurs
     Serial.println("Initialisation des moteurs...");
-
-    motor0.stop_motor();
- 
-
-
-    // 3. Définir la position actuelle comme zéro
-    Serial.println("Définition de la position zéro...");
-    set_mechanical_position_to_zero(MOTOR_ID_0, MASTER_ID);
-    delay(1000);
     
     motor0.init_motor(MODE_MOTION);
     motor0.enable_motor();
+    delay(1000);
    
     // 3. Définir la position actuelle comme zéro
    Serial.println("Définition de la position zéro...");
    set_mechanical_position_to_zero(MOTOR_ID_0, MASTER_ID);
    delay(1000);
-
 
   // 5. Mouvement initial pour tester
  Serial.println("Mouvement initial vers 0 radians...");
